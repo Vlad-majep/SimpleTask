@@ -8,7 +8,7 @@ describe("SimpleTask", function() {
       const [ owner, user ] = await ethers.getSigners();
   
       const SampleFactory = await ethers.getContractFactory("SimpleTask");
-      const task = await SampleFactory.deploy();
+      const task : SimpleTask = await SampleFactory.deploy();
       await task.deployed();
   
       return { task, owner, user }
@@ -38,6 +38,11 @@ describe("SimpleTask", function() {
     await tx.wait();
 
     expect(await task.getOwner()).to.eq(user.address);
-});
-
   });
+
+  it("reverts call to callError() with Panic", async function() {
+    const { task } = await loadFixture(deploy);
+
+    await expect(task.callError()).to.be.revertedWithPanic();
+  });
+});
