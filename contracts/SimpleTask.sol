@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
-contract simpleTask {
+contract SimpleTask {
     string public message;
     address public owner;
     string public name;
     constructor() {
         owner =  msg.sender;
-        name = 'Task';
+        name = 'SimpleTask';
     }
 
     function setOwner(address _newOwner) public {
