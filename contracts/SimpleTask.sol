@@ -33,8 +33,4 @@ contract SimpleTask {
     function getName() public view returns (string memory) {
         return name;
     }
-
-    function callError() public pure {
-        assert(false);
-    }
 }

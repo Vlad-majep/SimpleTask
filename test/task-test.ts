@@ -1,6 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ethers, userConfig } from "hardhat";
+import { ethers } from "hardhat";
 import { SimpleTask, SimpleTask__factory } from "../typechain-types";
 
 describe("SimpleTask", function() {
@@ -38,11 +38,5 @@ describe("SimpleTask", function() {
     await tx.wait();
 
     expect(await task.getOwner()).to.eq(user.address);
-  });
-
-  it("reverts call to callError() with Panic", async function() {
-    const { task } = await loadFixture(deploy);
-
-    await expect(task.callError()).to.be.revertedWithPanic();
   });
 });
