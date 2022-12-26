@@ -1,6 +1,6 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, userConfig } from "hardhat";
 import { SimpleTask, SimpleTask__factory } from "../typechain-types";
 
 describe("SimpleTask", function() {
@@ -23,5 +23,21 @@ describe("SimpleTask", function() {
         expect(await task.getMessage()).to.eq("hi");
     });
 
+    it("allows to call rename() and getName() ", async function() {
+      const { task } = await loadFixture(deploy);
+  
+      const tx = await task.rename("SmartContract");
+      await tx.wait();
+  
+      expect(await task.getName()).to.eq("SmartContract");
+  });
+
+  it("allows to call setOwner() and getOwner() ", async function() {
+    const { task, user } = await loadFixture(deploy);
+    const tx = await task.setOwner(user.address);
+    await tx.wait();
+
+    expect(await task.getOwner()).to.eq(user.address);
+});
 
   });
