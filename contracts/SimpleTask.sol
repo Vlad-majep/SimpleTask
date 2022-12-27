@@ -11,6 +11,7 @@ contract SimpleTask {
     }
 
     function setOwner(address _newOwner) public {
+        require(owner == msg.sender, "You are not owner!!!");
         owner = _newOwner;
     }
 
@@ -27,6 +28,7 @@ contract SimpleTask {
     }
     
     function rename(string memory _newName) public {
+        require(owner == msg.sender, "You are not owner!!!");
         name = _newName;
     }
 
