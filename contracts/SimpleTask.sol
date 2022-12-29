@@ -7,11 +7,15 @@ contract SimpleTask {
     string public name;
     constructor() {
         owner =  msg.sender;
-        name = 'SimpleTask';
+        name = "SimpleTask";
     }
 
-    function setOwner(address _newOwner) public {
+    modifier onlyOwner() {
         require(owner == msg.sender, "You are not owner!!!");
+        _;
+    }
+
+    function setOwner(address _newOwner) public onlyOwner {
         owner = _newOwner;
     }
 
@@ -27,8 +31,7 @@ contract SimpleTask {
         return message;
     }
     
-    function rename(string memory _newName) public {
-        require(owner == msg.sender, "You are not owner!!!");
+    function rename(string memory _newName) public onlyOwner {
         name = _newName;
     }
 
