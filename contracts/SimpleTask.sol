@@ -5,9 +5,12 @@ contract SimpleTask {
     string public message;
     address public owner;
     string public name;
-    constructor() {
-        owner =  msg.sender;
-        name = "SimpleTask";
+    constructor(
+        address _owner,
+        string memory _name
+    ) {
+        owner = _owner;
+        name = _name;
     }
 
     modifier onlyOwner() {

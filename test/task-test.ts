@@ -1,14 +1,17 @@
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { SimpleTask } from "../typechain-types";
+import { SimpleTask, SimpleTask__factory} from "../typechain-types";
 
 describe("SimpleTask", function() {
     async function deploy() {
       const [ owner, user ] = await ethers.getSigners();
   
       const SampleFactory = await ethers.getContractFactory("SimpleTask");
-      const task : SimpleTask = await SampleFactory.deploy();
+      const task : SimpleTask = await SampleFactory.deploy(
+        owner.address,
+        "SimpleTask"
+      );
       await task.deployed();
   
       return { task, owner, user }
@@ -38,5 +41,21 @@ describe("SimpleTask", function() {
     await tx.wait();
 
     expect(await task.getOwner()).to.eq(user.address);
+  });
+
+  it("reverts call to setOwner() ", async function() {
+    const { task, user } = await loadFixture(deploy);
+    
+    await expect(
+      SimpleTask__factory.connect(task.address, user).rename("NewName")
+    ).to.be.revertedWith("You are not owner!!!");
+  });
+
+  it("reverts call to rename() ", async function() {
+    const { task, user } = await loadFixture(deploy);
+    
+    await expect(
+      SimpleTask__factory.connect(task.address, user).setOwner(user.address)
+    ).to.be.revertedWith("You are not owner!!!");
   });
 });
